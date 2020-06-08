@@ -1,34 +1,34 @@
 /*** Private Data ***/
 let NewPrivateData = function (caller) {
-    const x = _newPrime();
+    const x = _getX();
     const G = getById("G").innerHTML;
     const p = getById("p").innerHTML;
-    // TODO power modulo
     // gx = g^x mod p
-    const Gx = Math.pow(G, x);
+    const Gx = expmod(G, x, p);
 
     getById(`${caller}`).innerText = "****************";
     getById(`${caller}`).value = x;
 
-    getById(`G${caller}`).innerText = "****************";
+    getById(`G${caller}`).innerText = Gx;
     getById(`G${caller}`).value = Gx;
 
     getById(`K${caller}`).innerText = "";
     getById(`K${caller}`).value = 0;
 };
 
-let _newPrime = function () {
-    //
+let _getX = function () {
+    const p = getById("p").innerHTML;
+    return GetRandomInteger(p);
 };
 
 let CreateKey = function (caller) {
     const x = getById(`${caller}`).value;
-    const gy = getById(`${caller}-cipher-data`).innerText;
+    const Gy = getById(`${caller}-cipher-data`).innerText;
     const p = getById("p").innerHTML;
-    // TODO: power modulo
     // k = gy^x mod p
-    const k = 1;
+    const k = expmod(Gy, x, p);
 
+    getById(`K${caller}`).innerText = "****************";
     getById(`K${caller}`).value = k;
 };
 
@@ -55,7 +55,7 @@ let Encrypt = function (caller) {
 /*** Decrypt ***/
 let Decrypt = function (caller) {
     const cipher = getById(`${caller}-cipher-data`).innerText;
-    const key = getById(`K${caller}`).innerText;
+    const key = getById(`K${caller}`).value;
     const message = _otp(cipher, key);
 
     getById(`${caller}-cipher-data`).innerText = message;
@@ -84,7 +84,7 @@ let SendKey = function (caller) {
         NewPrivateData(caller);
 
     const key = getById(`G${caller}`).innerText;
-    ServerRecieve(caller, key);
+    ServerRecieve(caller, key, true);
 };
 
 /*** Recieve ***/

@@ -37,10 +37,10 @@
                 <h1>Alice</h1>
                 <div class="ui form">
                     <div class="ui small basic icon buttons">
-                        <button class="ui button" data-content="New Private Data"
+                        <button class="ui basic button" data-content="New Private Data"
                             data-position="top left" onclick="NewPrivateData('a')">
                             <i class="plus icon"></i></button>
-                        <button class="ui button" data-content="Show Private Data"
+                        <button class="ui basic button" data-content="Show Private Data"
                             data-position="top left" onclick="ShowPrivate('a')">
                             <i class="eye icon"></i></button>
                         <button class="ui black basic button"
@@ -51,20 +51,20 @@
                     <div class="field">
                         <br>
                         <label>Private Data</label>
+                        <span>(K)</span>
+                        <span id="Ka">0</span>
+                        <br>
                         <span>(a)</span>
-                        <span id="a">****************</span>
+                        <span id="a">0</span>
                         <br>
                         <span>(A=G^a)</span>
-                        <span id="Ga">****************</span>
-                        <br>
-                        <span>(K)</span>
-                        <span id="Ka">43kjhghj8g763j34ljkhlfd</span>
+                        <span id="Ga">0</span>
                     </div>
                     <div class="ui small basic icon buttons">
-                        <button class="ui button" data-content="Use to generate Key"
+                        <button class="ui basic button" data-content="Use to generate Key"
                             data-position="top left" onclick="CreateKey('a')">
                             <i class="up arrow icon"></i></button>
-                        <button class="ui button" data-content="Clear Encrypted"
+                        <button class="ui basic button" data-content="Clear Encrypted"
                             data-position="top left" onclick="Clear('a')">
                             <i class="close icon"></i></button>
                         <button class="ui blue basic button"
@@ -75,9 +75,7 @@
                     <div class="field">
                         <br>
                         <label id="a-cipher-data-label">Encrypted Data</label>
-                        <span id="a-cipher-data">
-                            34n8vu934uvcj0493tuv3
-                        </span>
+                        <span id="a-cipher-data"></span>
                     </div>
                     <div class="ui small basic icon buttons">
                         <button class="ui red basic button"
@@ -104,7 +102,7 @@
                 <div class="ui form">
                     <div class="field">
                         <label>Server Data</label>
-                        <span id="server-main">ck5th7dp3uy24r5k4d75t</span>
+                        <span id="server-main"></span>
                     </div>
                     <div class="ui buttons">
                         <button class="ui labeled icon button" onclick="ServerSend('a')">
@@ -121,16 +119,67 @@
                         <br>
                         <label>Common Data</label>
                         <span>(G)</span>
-                        <span id="G">***********************</span>
+                        <span id="G">4218</span> <br>
                         <span>(p)</span>
-                        <span id="p">***********************</span>
+                        <span id="p">45293</span>
+                    </div>
+                    <div class="ui small basic icon buttons">
+                        <button class="ui basic button" data-content="Clear Server Logs"
+                            data-position="top left" onclick="ClearLogs('log')">
+                            <i class="close icon"></i></button>
+                        <button class="ui basic button" data-content="Open Calculator"
+                            data-position="top left" onclick="ShowCalculator()">
+                            <i class="calculator icon"></i></button>
                     </div>
                     <div class="field">
-                        <button class="ui right labeled icon button" onclick="ClearLogs()">
-                            <i class="close icon"></i>
-                            Clear Server Logs
-                        </button>
+                        <br>
                         <div class="ui segment left aligned container" id="log"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="calculator-segment" class="ui segment hidden">
+                <h3>Calculator</h3>
+                <div class="ui form">
+                    <label>One Time Pad (OTP)</label>
+                    <div class="fields">
+                        <div class="eight wide field">
+                            <input id="calc-otp-payload" type="text" placeholder="Payload">
+                        </div>
+                        <div class="four wide field">
+                            <input id="calc-otp-key" type="text" placeholder="Key">
+                        </div>
+                        <button class="ui right labeled four wide field icon button"
+                            onclick="CalculatorOTP()">
+                            <i class="plus circle icon"></i>
+                            Pad
+                        </button>
+                    </div>
+                    <br>
+                    <label>Exponent Modulo</label>
+                    <div class="fields">
+                        <div class="four wide field">
+                            <input id="calc-exp-base" type="number" placeholder="Base">
+                        </div>
+                        <div class="four wide field">
+                            <input id="calc-exp-exp" type="number" placeholder="Exponent">
+                        </div>
+                        <div class="four wide field">
+                            <input id="calc-exp-mod" type="number" placeholder="Modulo">
+                        </div>
+                        <button class="ui right labeled four wide field icon button"
+                            onclick="CalculatorExponent()"><i class="plus circle icon"></i>
+                            Calc
+                        </button>
+                    </div>
+                    <br>
+                    <div class="ui small basic icon buttons">
+                        <button class="ui basic button" data-content="Clear Calculator Logs"
+                            data-position="top left" onclick="ClearLogs('calc-log')">
+                            <i class="close icon"></i></button>
+                    </div>
+                    <div class="field">
+                        <br>
+                        <div class="ui segment left aligned container" id="calc-log"></div>
                     </div>
                 </div>
             </div>
@@ -144,43 +193,41 @@
                             data-content="Send public key (B) to Alice - through Server"
                             data-position="top left" onclick="SendKey('b')">
                             <i class="left arrow icon"></i></button>
-                        <button class="ui button" data-content="New Private Data"
+                        <button class="ui basic button" data-content="New Private Data"
                             data-position="top left" onclick="NewPrivateData('b')">
                             <i class="plus icon"></i></button>
-                        <button class="ui button" data-content="Show Private Data"
+                        <button class="ui basic button" data-content="Show Private Data"
                             data-position="top left" onclick="ShowPrivate('b')">
                             <i class="eye icon"></i></button>
                     </div>
                     <div class="field">
                         <br>
                         <label>Private Data</label>
+                        <span>(K)</span>
+                        <span id="Kb">0</span>
+                        <br>
                         <span>(b)</span>
-                        <span id="b">****************</span>
+                        <span id="b">0</span>
                         <br>
                         <span>(B=G^b)</span>
-                        <span id="Gb">****************</span>
-                        <br>
-                        <span>(K)</span>
-                        <span id="Kb">43kjhghj8g763j34ljkhlfd</span>
+                        <span id="Gb">0</span>
                     </div>
                     <div class="ui small basic icon buttons">
                         <button class="ui blue basic button"
                             data-content="Send Encrypted to Alice - through Server"
                             data-position="top right" onclick="Send('b')">
                             <i class="left arrow icon"></i></button>
-                        <button class="ui button" data-content="Clear Encrypted"
+                        <button class="ui basic button" data-content="Clear Encrypted"
                             data-position="top right" onclick="Clear('b')">
                             <i class="close icon"></i></button>
-                        <button class="ui button" data-content="Use to generate Key"
+                        <button class="ui basic button" data-content="Use to generate Key"
                             data-position="top left" onclick="CreateKey('b')">
                             <i class="up arrow icon"></i></button>
                     </div>
                     <div class="field">
                         <br>
                         <label id="b-cipher-data-label">Encrypted Data</label>
-                        <span id="b-cipher-data">
-                            43kjhghj8g763j34ljkhlfd
-                        </span>
+                        <span id="b-cipher-data"></span>
                     </div>
                     <div class="ui small basic icon buttons">
                         <button class="ui red basic button"
