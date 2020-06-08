@@ -67,12 +67,10 @@ let Decrypt = function (caller) {
 
 /*** Send ***/
 let Send = function (caller) {
-    if (!getById(`${caller}-cipher-data`).innerText)
-        Encrypt(caller);
-
     // Send to Server
     const cipher = getById(`${caller}-cipher-data`).innerText;
-    ServerRecieve(caller, cipher);
+    const payload = cipher ? cipher : getById(`${caller}-message`).value.toString();
+    ServerRecieve(caller, payload);
 
     // Write to message board
     const message = getById(`${caller}-message`).value;
